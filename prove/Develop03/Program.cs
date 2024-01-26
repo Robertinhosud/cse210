@@ -80,7 +80,7 @@ class Escritura
     {
 
         Console.Clear();
-        Console.WriteLine($"{Referencia.ToString()} - Escritura:");
+        Console.WriteLine($"{Referencia.ToString()} - Scripture:");
 
         foreach (Palavra palavra in palavras)
         {
@@ -88,7 +88,7 @@ class Escritura
             Console.Write(palavra.Oculta ? " _ " : $"{palavra.Texto} ");
         }
 
-        Console.WriteLine("\nPressione Enter para continuar...");
+        Console.WriteLine("\nPress Enter to continue or write quit to stop the program.");
     }
 
     // Método para verificar se todas as palavras estão ocultas
@@ -117,16 +117,16 @@ class Program
         switch (escolhaEscritura)
         {
             case 1:
-                escritura = CriarEscrituraExemplo("João", 3, 16, 16, "Porque Deus amou o mundo...");
+                escritura = CriarEscrituraExemplo("John", 3, 16, 16, "For God so loved the world, that he gave his only begotten Son, that whosoever believeth in him should not perish, but have everlasting life.");
                 break;
             case 2:
-                escritura = CriarEscrituraExemplo("Mateus", 5, 1, 12, "Vendo a multidão, subiu ao monte...");
+                escritura = CriarEscrituraExemplo(" 1 Nephi", 3, 7, 7, "And it came to pass that I, Nephi, said unto my father: I will go and do the things which the Lord hath commanded, for I know that the Lord giveth no commandments unto the children of men, save he shall prepare a way for them that they may accomplish the thing which he commandeth them.");
                 break;
             case 3:
-                escritura = CriarEscrituraExemplo("Salmo", 23, 1, 6, "O Senhor é o meu pastor, nada me faltará...");
+                escritura = CriarEscrituraExemplo("James", 1, 5, 6, "5 If any of you lack wisdom, let him ask of God, that giveth to all men liberally, and upbraideth not; and it shall be given him. 6 But let him ask in faith, nothing wavering. For he that wavereth is like a wave of the sea driven with the wind and tossed.");
                 break;
             default:
-                Console.WriteLine("Escolha inválida. Saindo do programa.");
+                Console.WriteLine("Invalid choice. Exiting the program.");
                 return;
         }
 
@@ -151,23 +151,23 @@ class Program
 
     static void ExibirMensagemDeBoasVindas()
     {
-        Console.WriteLine("Bem-vindo ao Memorizador de Escrituras!");
-        Console.WriteLine("Este programa ajudará você a memorizar uma escritura ocultando palavras a cada pressionar de Enter.");
-        Console.WriteLine("Digite 'quit' a qualquer momento para sair.");
+        Console.WriteLine("Welcome to Scripture Memorizer App!");
+        Console.WriteLine("This program will help you memorize a scripture by hiding words with each press of Enter.");
+        Console.WriteLine("Type 'quit' at any time to exit.");
         Console.WriteLine();
     }
 
     static int ExibirMenuDeEscrituras()
     {
-        Console.WriteLine("Escolha uma escritura para praticar:");
-        Console.WriteLine("1. João 3:16");
-        Console.WriteLine("2. Mateus 5:1-12");
-        Console.WriteLine("3. Salmo 23:1-6");
+        Console.WriteLine("Choose a scripture to practice:");
+        Console.WriteLine("1. John 3:16");
+        Console.WriteLine("2. 1 Nephi 3:7");
+        Console.WriteLine("3. James 1:5-6");
 
         int escolha;
         while (!int.TryParse(Console.ReadLine(), out escolha) || escolha < 1 || escolha > 3)
         {
-            Console.WriteLine("Escolha inválida. Tente novamente:");
+            Console.WriteLine("Invalid choice. Try again:");
         }
 
         return escolha;
