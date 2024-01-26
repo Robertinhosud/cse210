@@ -74,7 +74,7 @@ public class Diary
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Erro ao carregar o arquivo: {ex.Message}");
+            Console.WriteLine($"Error uploading the file: {ex.Message}");
         }
     }
 }
@@ -85,26 +85,31 @@ class Program
     static void Main()
     {
         Diary diary = new Diary();
+            Console.WriteLine ("Welcome to JOURNAL Program! your diary app that helps you with your daily memories.");
 
         while (true)
         {
-            Console.WriteLine("Escolha uma opção:");
-            Console.WriteLine("1. Escrever uma nova entrada");
-            Console.WriteLine("2. Exibir o diário");
-            Console.WriteLine("3. Salvar o diário em um arquivo");
-            Console.WriteLine("4. Carregar o diário de um arquivo");
-            Console.WriteLine("5. Sair");
+            // Adicionando saudação com base na hora do dia
+            GreetUserBasedOnTime();
+            Console.WriteLine("Please Select one of the following choices:");
+            Console.WriteLine("1. Write");
+            Console.WriteLine("2. Display the diary");
+            Console.WriteLine("3. Save the diary to a file");
+            Console.WriteLine("4. Upload the diary from a file");
+            Console.WriteLine("5. Exit");
 
             string choice = Console.ReadLine();
 
             switch (choice)
             {
                 case "1":
-                    Console.WriteLine("Escreva uma nova entrada:");
+                    Console.WriteLine("Write a new entry::");
                     string prompt = GetRandomPrompt(); // Implemente a lógica para obter um prompt aleatório
-                    Console.WriteLine($"Pergunta: {prompt}");
+                    Console.WriteLine($"Question: {prompt}");
                     string response = Console.ReadLine();
                     diary.AddEntry(prompt, response);
+                    
+                    
                     break;
 
                 case "2":
@@ -112,13 +117,13 @@ class Program
                     break;
 
                 case "3":
-                    Console.WriteLine("Digite o nome do arquivo para salvar:");
+                    Console.WriteLine("Enter the name of the file to save:");
                     string saveFileName = Console.ReadLine();
                     diary.SaveToFile(saveFileName);
                     break;
 
                 case "4":
-                    Console.WriteLine("Digite o nome do arquivo para carregar:");
+                    Console.WriteLine("Enter the name of the file to upload:");
                     string loadFileName = Console.ReadLine();
                     diary.LoadFromFile(loadFileName);
                     break;
@@ -128,7 +133,7 @@ class Program
                     break;
 
                 default:
-                    Console.WriteLine("Opção inválida. Tente novamente.");
+                    Console.WriteLine("Invalid option. Try again.");
                     break;
             }
         }
@@ -141,11 +146,14 @@ class Program
         // Neste exemplo, estou usando uma lista fixa de prompts para simplificar
         List<string> prompts = new List<string>
         {
-            "Quem foi a pessoa mais interessante com quem interagi hoje?",
-            "Qual foi a melhor parte do meu dia?",
-            "Como vi a mão do Senhor em minha vida hoje?",
-            "Qual foi a emoção mais forte que senti hoje?",
-            "Se eu tivesse algo que pudesse fazer hoje, o que seria?"
+            "Who was the most interesting person I interacted with today?",
+            "What was the best part of my day?",
+            "How did I see the Lord's hand in my life today?",
+            "What was the strongest emotion I felt today?",
+            "If I had one thing I could do today, what would it be?",
+            "If I could choose one thing to improve on my journey today, what would it be?",
+            "What challenges have I faced and how do I deal with them today?",
+            "What do I think God would say to me today?"
         };
 
         Random random = new Random();
@@ -153,4 +161,24 @@ class Program
 
         return prompts[index];
     }
+    // Método para cumprimentar o usuário com base na hora do dia
+    static void GreetUserBasedOnTime()
+    {
+        DateTime now = DateTime.Now;
+        int hour = now.Hour;
+
+        if (6 <= hour && hour < 12)
+        {
+            Console.WriteLine("Good Morning!");
+        }
+        else if (12 <= hour && hour < 18)
+        {
+            Console.WriteLine("Good Afternoon!");
+        }
+        else
+        {
+            Console.WriteLine("Good Evening!");
+        }
+    }
 }
+
