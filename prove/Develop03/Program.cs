@@ -85,7 +85,7 @@ class Escritura
         foreach (Palavra palavra in palavras)
         {
             // Se a palavra estiver oculta, exibe sublinhado, caso contrário, exibe a palavra
-            Console.Write(palavra.Oculta ? "_ " : $"{palavra.Texto} ");
+            Console.Write(palavra.Oculta ? " _ " : $"{palavra.Texto} ");
         }
 
         Console.WriteLine("\nPressione Enter para continuar...");
@@ -108,10 +108,27 @@ class Program
         // Aguarda a entrada do usuário antes de criar a escritura de exemplo
         Console.ReadLine();
 
+        // Exibe o menu de escolha de escrituras
+        int escolhaEscritura = ExibirMenuDeEscrituras();
 
-        // Criar uma escritura de exemplo
-        Referencia referencia = new Referencia("João", 3, 16, 16);
-        Escritura escritura = new Escritura(referencia, "Porque Deus amou o mundo de tal maneira que deu o seu Filho unigênito, para que todo aquele que nele crê não pereça, mas tenha a vida eterna.");
+        // Criar uma escritura com base na escolha do usuário
+        Escritura escritura;
+
+        switch (escolhaEscritura)
+        {
+            case 1:
+                escritura = CriarEscrituraExemplo("João", 3, 16, 16, "Porque Deus amou o mundo...");
+                break;
+            case 2:
+                escritura = CriarEscrituraExemplo("Mateus", 5, 1, 12, "Vendo a multidão, subiu ao monte...");
+                break;
+            case 3:
+                escritura = CriarEscrituraExemplo("Salmo", 23, 1, 6, "O Senhor é o meu pastor, nada me faltará...");
+                break;
+            default:
+                Console.WriteLine("Escolha inválida. Saindo do programa.");
+                return;
+        }
 
         do
         {
@@ -138,5 +155,27 @@ class Program
         Console.WriteLine("Este programa ajudará você a memorizar uma escritura ocultando palavras a cada pressionar de Enter.");
         Console.WriteLine("Digite 'quit' a qualquer momento para sair.");
         Console.WriteLine();
+    }
+
+    static int ExibirMenuDeEscrituras()
+    {
+        Console.WriteLine("Escolha uma escritura para praticar:");
+        Console.WriteLine("1. João 3:16");
+        Console.WriteLine("2. Mateus 5:1-12");
+        Console.WriteLine("3. Salmo 23:1-6");
+
+        int escolha;
+        while (!int.TryParse(Console.ReadLine(), out escolha) || escolha < 1 || escolha > 3)
+        {
+            Console.WriteLine("Escolha inválida. Tente novamente:");
+        }
+
+        return escolha;
+    }
+
+    static Escritura CriarEscrituraExemplo(string livro, int capitulo, int versiculoInicio, int versiculoFim, string texto)
+    {
+        Referencia referencia = new Referencia(livro, capitulo, versiculoInicio, versiculoFim);
+        return new Escritura(referencia, texto);
     }
 }
