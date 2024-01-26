@@ -103,7 +103,7 @@ class Program
             switch (choice)
             {
                 case "1":
-                    Console.WriteLine("Write a new entry::");
+                    Console.WriteLine("Write a new entry:");
                     string prompt = GetRandomPrompt(); // Implemente a lógica para obter um prompt aleatório
                     Console.WriteLine($"Question: {prompt}");
                     string response = Console.ReadLine();
