@@ -102,13 +102,23 @@ class Program
 {
     static void Main()
     {
+        // Exibe a mensagem de boas-vindas
+        ExibirMensagemDeBoasVindas();
+
+        // Aguarda a entrada do usuário antes de criar a escritura de exemplo
+        Console.ReadLine();
+
+
         // Criar uma escritura de exemplo
         Referencia referencia = new Referencia("João", 3, 16, 16);
         Escritura escritura = new Escritura(referencia, "Porque Deus amou o mundo de tal maneira que deu o seu Filho unigênito, para que todo aquele que nele crê não pereça, mas tenha a vida eterna.");
 
         do
         {
+            // Exibe a escritura
             escritura.ExibirEscritura();
+
+            // Aguarda a entrada do usuário
             string input = Console.ReadLine();
 
             if (input.ToLower() == "quit")
@@ -116,8 +126,17 @@ class Program
                 break;
             }
 
+            // Oculta palavras aleatórias e exibe a escritura novamente
             escritura.OcultarPalavrasAleatorias();
 
         } while (!escritura.TodasPalavrasOcultas());
+    }
+
+    static void ExibirMensagemDeBoasVindas()
+    {
+        Console.WriteLine("Bem-vindo ao Memorizador de Escrituras!");
+        Console.WriteLine("Este programa ajudará você a memorizar uma escritura ocultando palavras a cada pressionar de Enter.");
+        Console.WriteLine("Digite 'quit' a qualquer momento para sair.");
+        Console.WriteLine();
     }
 }
