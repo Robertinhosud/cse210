@@ -58,7 +58,7 @@ class BreathingActivity : MindfulnessActivity
             Thread.Sleep(3000); // Pause for 1 second
             Console.WriteLine("Breathe out...");
             Thread.Sleep(4000); // Pause for 1 second
-            remainingTime -= 2; // Counting both inspire and expire as 1 second each
+            remainingTime -= 5; // Counting both inspire and expire as 1 second each
         }
     }
 
@@ -74,23 +74,23 @@ class ReflectionActivity : MindfulnessActivity
 {
     private List<string> prompts = new List<string>
     {
-        "Pense em uma ocasião em que você defendeu outra pessoa.",
-        "Pense em uma ocasião em que você fez algo realmente difícil.",
-        "Pense em uma ocasião em que você ajudou alguém necessitado.",
-        "Pense em uma época em que você fez algo verdadeiramente altruísta."
+        " * Think of a time when you stood up for someone else.",
+        " * Think of a time when you did something really difficult.",
+        " * Think of a time when you helped someone in need.",
+        " * Think of a time when you did something truly selfless."
     };
 
     private List<string> questions = new List<string>
     {
-        "Por que essa experiência foi significativa para você?",
-        "Você já fez algo assim antes?",
-        "Como você começou?",
-        "Como você se sentiu quando terminou?",
-        "O que tornou este momento diferente de outros momentos em que você não teve tanto sucesso?",
-        "Qual é a sua coisa favorita nesta experiência?",
-        "O que você poderia aprender com essa experiência que se aplica a outras situações?",
-        "O que você aprendeu sobre si mesmo através dessa experiência?",
-        "Como você pode manter essa experiência em mente no futuro?"
+        "Why was this experience meaningful to you?",
+        "Have you ever done something like this before?",
+        "How did you start?",
+        "How did you feel when you finished?",
+        "What made this moment different from other times when you weren't as successful?",
+        "What is your favorite thing about this experience?",
+        "What could you learn from this experience that applies to other situations?",
+        "What have you learned about yourself through this experience?",
+        "How can you keep this experience in mind for the future?"
     };
 
     public ReflectionActivity() : base("Reflection", "This activity will help you reflect on moments in your life where you demonstrated strength and resilience.")
@@ -117,6 +117,8 @@ class ReflectionActivity : MindfulnessActivity
             Console.WriteLine($"Question: {question}");
             Thread.Sleep(6000); // Pause for 3 seconds before showing the next question
 
+            Console.WriteLine("");
+
             remainingTime -= 5; // Deducting time for prompt and question
         }
     }
@@ -133,11 +135,11 @@ class ListingActivity : MindfulnessActivity
 {
     private List<string> prompts = new List<string>
     {
-        "Quem são as pessoas que você aprecia?",
-        "Quais são os seus pontos fortes pessoais?",
-        "Quem são as pessoas que você ajudou esta semana?",
-        "Quando você sentiu o Espírito Santo neste mês?",
-        "Quem são alguns de seus heróis pessoais?"
+        "Who are the people you appreciate?",
+        "What are your personal strengths?",
+        "Who are the people you helped this week?",
+        "When did you feel the Holy Spirit this month?",
+        "Who are some of your personal heroes?"
     };
 
     public ListingActivity() : base("Listing", "This activity will help you reflect on the good things in your life by listing as many things as you can in a particular area.")
@@ -185,6 +187,43 @@ class ListingActivity : MindfulnessActivity
     }
 }
 
+class GratitudeActivity : MindfulnessActivity
+{
+    public GratitudeActivity() : base("Gratitude", "This activity will help you cultivate gratitude by reflecting on the things you are thankful for in your life.")
+    {
+    }
+
+    public override void StartActivity()
+    {
+        base.StartActivity();
+        Console.WriteLine("Get ready to express gratitude...");
+
+        int durationInSeconds = duration;
+        int remainingTime = durationInSeconds;
+        int itemsCount = 0;
+        DateTime startTime = DateTime.Now;
+
+        while (remainingTime > 0)
+        {
+            Console.Write("What are you grateful for? (or type 'done' to finish): ");
+            string input = Console.ReadLine();
+
+            if (input.ToLower() == "done")
+                break;
+
+            itemsCount++;
+            remainingTime = (int)(durationInSeconds - (DateTime.Now - startTime).TotalSeconds); // Update remaining time
+        }
+
+        Console.WriteLine($"You expressed gratitude for {itemsCount} things.");
+    }
+
+    public override void EndActivity()
+    {
+        base.EndActivity();
+    }
+}
+
 
 class Program
 {
@@ -198,7 +237,8 @@ class Program
             Console.WriteLine("1. Breathing");
             Console.WriteLine("2. Reflection");
             Console.WriteLine("3. Listing");
-            Console.WriteLine("4. Exit");
+            Console.WriteLine("4. Gratitude");
+            Console.WriteLine("5. Exit");
 
             Console.Write("Enter your choice: ");
  int choice = Convert.ToInt32(Console.ReadLine());
@@ -217,6 +257,9 @@ class Program
                     activity = new ListingActivity();
                     break;
                 case 4:
+                    activity = new GratitudeActivity();
+                    break;
+                case 5:
                     Environment.Exit(0);
                     break;
                 default:
