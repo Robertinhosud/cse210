@@ -6,7 +6,7 @@ public class Program
 {
     public static void Main(string[] args)
     {
-        // Crie uma instância do seu gerenciador de metas e inicie seu programa a partir daqui
+        // Create an instance of your goal manager and start your program from here
         GoalManager manager = new GoalManager();
         manager.Start();
     }
@@ -22,7 +22,7 @@ public abstract class Goal
     public string Description { get { return _description; } }
     public int Points { get { return _points; } }
 
-    // Construtor
+    // Constructor
     public Goal(string shortName, string description, int points)
     {
         _shortName = shortName;
@@ -30,7 +30,7 @@ public abstract class Goal
         _points = points;
     }
 
-    // Métodos abstratos a serem implementados nas classes derivadas
+    // Abstract methods to be implemented in derived classes
     public abstract void RecordEvent();
     public abstract bool IsComplete();
     public abstract string GetStringRepresentation();
@@ -40,26 +40,26 @@ public class SimpleGoal : Goal
 {
     private bool _isComplete;
 
-    // Construtor
+    // Constructor
     public SimpleGoal(string shortName, string description, int points) : base(shortName, description, points)
     {
-        _isComplete = false; // Inicializa como não completo
+        _isComplete = false; // Initialize as not complete
     }
 
-    // Método para registrar o evento
+    // Method to record the event
     public override void RecordEvent()
     {
         _isComplete = true;
-        Console.WriteLine($"Evento registrado para meta simples: {ShortName}");
+        Console.WriteLine($"Event recorded for simple goal: {ShortName}");
     }
 
-    // Método para verificar se a meta está completa
+    // Method to check if the goal is complete
     public override bool IsComplete()
     {
         return _isComplete;
     }
 
-    // Método para obter a representação da string
+    // Method to get the string representation
     public override string GetStringRepresentation()
     {
         return $"[SimpleGoal] {_shortName}: {_description}";
@@ -68,21 +68,21 @@ public class SimpleGoal : Goal
 
 public class EternalGoal : Goal
 {
-    // Construtor
+    // Constructor
     public EternalGoal(string shortName, string description, int points) : base(shortName, description, points)
     {
-        // Nenhuma variável específica necessária para metas eternas
+        // No specific variables needed for eternal goals
     }
 
-    // Métodos de implementação
+    // Implementation methods
     public override void RecordEvent()
     {
-        Console.WriteLine($"Evento registrado para meta eterna: {ShortName}");
+        Console.WriteLine($"Event recorded for eternal goal: {ShortName}");
     }
 
     public override bool IsComplete()
     {
-        // As metas eternas nunca são concluídas
+        // Eternal goals are never completed
         return false;
     }
 
@@ -97,37 +97,37 @@ public class ChecklistGoal : Goal
     private int _amountCompleted;
     private int _target;
     private int _bonus;
-    private GoalManager _manager; // Adicionando um campo para armazenar a referência para o GoalManager
+    private GoalManager _manager; // Adding a field to store the reference to the GoalManager
 
-    // Construtor
+    // Constructor
     public ChecklistGoal(string shortName, string description, int points, int target, int bonus, GoalManager manager) 
         : base(shortName, description, points)
     {
         _amountCompleted = 0;
         _target = target;
         _bonus = bonus;
-        _manager = manager; // Armazenando a referência para o GoalManager
+        _manager = manager; // Storing the reference to the GoalManager
     }
 
-    // Getters e setters para os atributos
+    // Getters and setters for the attributes
     public int Target { get { return _target; } }
     public int Bonus { get { return _bonus; } }
     public int AmountCompleted 
     { 
         get { return _amountCompleted; } 
-        set { _amountCompleted = value; } // Adicionando um setter para permitir a modificação
+        set { _amountCompleted = value; } // Adding a setter to allow modification
     }
 
-    // Métodos de implementação
+    // Implementation methods
     public override void RecordEvent()
     {
         _amountCompleted++;
-        Console.WriteLine($"Evento registrado para meta de checklist: {ShortName}");
+        Console.WriteLine($"Event recorded for checklist goal: {ShortName}");
 
         if (IsComplete())
         {
-            _manager.UpdateScore(_bonus); // Adicionando o bônus à pontuação usando o método da classe GoalManager
-            Console.WriteLine($"Meta de checklist '{ShortName}' concluída! Bônus de {_bonus} pontos adicionado à pontuação.");
+            _manager.UpdateScore(_bonus); // Adding the bonus to the score using the method from the GoalManager class
+            Console.WriteLine($"Checklist goal '{ShortName}' completed! {_bonus} point bonus added to the score.");
         }
     }
 
@@ -147,32 +147,32 @@ public class GoalManager
     private List<Goal> _goals;
     private int _score;
 
-    // Construtor
+    // Constructor
     public GoalManager()
     {
         _goals = new List<Goal>();
         _score = 0;
     }
 
-    // Métodos para interação do usuário
+    // User interaction methods
     public void Start()
     {
-        Console.WriteLine("Bem-vindo ao Eternal Quest!");
+        Console.WriteLine("Welcome to Eternal Quest!");
 
         bool exit = false;
 
         while (!exit)
         {
-            Console.WriteLine("\nSelecione uma opção:");
-            Console.WriteLine("1. Visualizar informações do jogador");
-            Console.WriteLine("2. Listar metas disponíveis");
-            Console.WriteLine("3. Criar nova meta");
-            Console.WriteLine("4. Registrar evento para uma meta");
-            Console.WriteLine("5. Salvar metas em um arquivo");
-            Console.WriteLine("6. Carregar metas de um arquivo");
-            Console.WriteLine("7. Sair");
+            Console.WriteLine("\nSelect an option:");
+            Console.WriteLine("1. View player information");
+            Console.WriteLine("2. List available goals");
+            Console.WriteLine("3. Create a new goal");
+            Console.WriteLine("4. Record an event for a goal");
+            Console.WriteLine("5. Save goals to a file");
+            Console.WriteLine("6. Load goals from a file");
+            Console.WriteLine("7. Exit");
 
-            Console.Write("Opção: ");
+            Console.Write("Option: ");
             string choice = Console.ReadLine();
 
             switch (choice)
@@ -197,10 +197,10 @@ public class GoalManager
                     break;
                 case "7":
                     exit = true;
-                    Console.WriteLine("Obrigado por jogar o Eternal Quest!");
+                    Console.WriteLine("Thank you for playing Eternal Quest!");
                     break;
                 default:
-                    Console.WriteLine("Opção inválida. Por favor, selecione uma opção válida.");
+                    Console.WriteLine("Invalid option. Please select a valid option.");
                     break;
             }
         }
@@ -208,14 +208,14 @@ public class GoalManager
 
     public void DisplayPlayerInfo()
     {
-        Console.WriteLine($"Pontuação atual: {_score}");
-        Console.WriteLine($"Número total de metas concluídas: {_goals.Count(g => g.IsComplete())}");
-        Console.WriteLine($"Número total de metas em andamento: {_goals.Count(g => !g.IsComplete())}");
+        Console.WriteLine($"Current score: {_score}");
+        Console.WriteLine($"Total number of completed goals: {_goals.Count(g => g.IsComplete())}");
+        Console.WriteLine($"Total number of goals in progress: {_goals.Count(g => !g.IsComplete())}");
 
-        Console.WriteLine("\nDetalhes das Metas:");
+        Console.WriteLine("\nGoal Details:");
         foreach (var goal in _goals)
         {
-            Console.WriteLine($"- {goal.ShortName}: {(goal.IsComplete() ? "Concluída" : "Em andamento")}");
+            Console.WriteLine($"- {goal.ShortName}: {(goal.IsComplete() ? "Completed" : "In Progress")}");
         }
     }
 
@@ -223,25 +223,25 @@ public class GoalManager
     {
         foreach (var goal in _goals)
         {
-            Console.WriteLine($"Nome: {goal.ShortName}");
-            Console.WriteLine($"Descrição: {goal.Description}");
-            Console.WriteLine($"Pontos: {goal.Points}");
-            Console.WriteLine($"Status: {(goal.IsComplete() ? "Concluída" : "Pendente")}");
+            Console.WriteLine($"Name: {goal.ShortName}");
+            Console.WriteLine($"Description: {goal.Description}");
+            Console.WriteLine($"Points: {goal.Points}");
+            Console.WriteLine($"Status: {(goal.IsComplete() ? "Completed" : "Pending")}");
             Console.WriteLine();
         }
     }
 
     public void CreateGoalMenu()
     {
-        Console.WriteLine("Qual tipo de meta você deseja criar?");
-        Console.WriteLine("1. Meta Simples: Uma meta que pode ser marcada como concluída ou não.");
-        Console.WriteLine("2. Meta Eterna: Uma meta que nunca pode ser concluída.");
-        Console.WriteLine("3. Meta de Checklist: Uma meta que requer um certo número de tarefas a serem concluídas.");
-        Console.Write("Escolha uma opção: ");
+        Console.WriteLine("What type of goal do you want to create?");
+        Console.WriteLine("1. Simple Goal: A goal that can be marked as completed or not.");
+        Console.WriteLine("2. Eternal Goal: A goal that can never be completed.");
+        Console.WriteLine("3. Checklist Goal: A goal that requires a certain number of tasks to be completed.");
+        Console.Write("Choose an option: ");
         int choice;
         if (!int.TryParse(Console.ReadLine(), out choice))
         {
-            Console.WriteLine("Opção inválida. Tente novamente.");
+            Console.WriteLine("Invalid option. Please try again.");
             return;
         }
 
@@ -257,85 +257,85 @@ public class GoalManager
                 CreateChecklistGoal();
                 break;
             default:
-                Console.WriteLine("Opção inválida. Tente novamente.");
+                Console.WriteLine("Invalid option. Please try again.");
                 break;
         }
     }
 
     private void CreateSimpleGoal()
     {
-        Console.Write("Nome da meta: ");
+        Console.Write("Goal name: ");
         string shortName = Console.ReadLine();
-        Console.Write("Descrição da meta: ");
+        Console.Write("Goal description: ");
         string description = Console.ReadLine();
-        Console.Write("Pontuação da meta: ");
+        Console.Write("Goal points: ");
         int points;
         if (!int.TryParse(Console.ReadLine(), out points))
         {
-            Console.WriteLine("Valor inválido para a pontuação. Tente novamente.");
+            Console.WriteLine("Invalid value for points. Please try again.");
             return;
         }
 
         SimpleGoal simpleGoal = new SimpleGoal(shortName, description, points);
         _goals.Add(simpleGoal);
-        Console.WriteLine("Meta Simples criada com sucesso!");
+        Console.WriteLine("Simple Goal created successfully!");
     }
 
     private void CreateEternalGoal()
     {
-        Console.Write("Nome da meta: ");
+        Console.Write("Goal name: ");
         string shortName = Console.ReadLine();
-        Console.Write("Descrição da meta: ");
+        Console.Write("Goal description: ");
         string description = Console.ReadLine();
-        Console.Write("Pontuação da meta: ");
+        Console.Write("Goal points: ");
         int points;
         if (!int.TryParse(Console.ReadLine(), out points))
         {
-            Console.WriteLine("Valor inválido para a pontuação. Tente novamente.");
+            Console.WriteLine("Invalid value for points. Please try again.");
             return;
         }
 
         EternalGoal eternalGoal = new EternalGoal(shortName, description, points);
         _goals.Add(eternalGoal);
-        Console.WriteLine("Meta Eterna criada com sucesso!");
+        Console.WriteLine("Eternal Goal created successfully!");
     }
 
     private void CreateChecklistGoal()
     {
-        Console.Write("Nome da meta: ");
+        Console.Write("Goal name: ");
         string shortName = Console.ReadLine();
-        Console.Write("Descrição da meta: ");
+        Console.Write("Goal description: ");
         string description = Console.ReadLine();
-        Console.Write("Pontuação da meta: ");
+        Console.Write("Goal points: ");
         int points;
         if (!int.TryParse(Console.ReadLine(), out points))
         {
-            Console.WriteLine("Valor inválido para a pontuação. Tente novamente.");
+            Console.WriteLine("Invalid value for points. Please try again.");
             return;
         }
-        Console.Write("Informe a meta alvo para a Meta de Checklist: ");
+        Console.Write("Enter the target for the Checklist Goal: ");
         int target;
         if (!int.TryParse(Console.ReadLine(), out target))
         {
-            Console.WriteLine("Valor inválido para a meta alvo. Tente novamente.");
+            Console.WriteLine("Invalid value for the target. Please try again.");
             return;
         }
-        Console.Write("Informe o bônus para a Meta de Checklist: ");
+        Console.Write("Enter the bonus for the Checklist Goal: ");
         int bonus;
         if (!int.TryParse(Console.ReadLine(), out bonus))
         {
-            Console.WriteLine("Valor inválido para o bônus. Tente novamente.");
+            Console.WriteLine("Invalid value for the bonus. Please try again.");
             return;
         }
 
         ChecklistGoal checklistGoal = new ChecklistGoal(shortName, description, points, target, bonus, this);
         _goals.Add(checklistGoal);
-        Console.WriteLine("Meta de Checklist criada com sucesso!");
+        Console.WriteLine("Checklist Goal created successfully!");
     }
 
     public void RecordEventMenu()
     {
-        Console.Write("Digite o nome da meta: ");
+        Console.Write("Enter the goal name: ");
         string goalName = Console.ReadLine();
         RecordEvent(goalName);
     }
@@ -348,18 +348,18 @@ public class GoalManager
         {
             goal.RecordEvent();
             _score += goal.Points;
-            Console.WriteLine($"Evento registrado para a meta: {goalName}");
-            Console.WriteLine($"Pontuação atualizada: {_score}");
+            Console.WriteLine($"Event recorded for the goal: {goalName}");
+            Console.WriteLine($"Updated score: {_score}");
         }
         else
         {
-            Console.WriteLine("Meta não encontrada.");
+            Console.WriteLine("Goal not found.");
         }
     }
 
     public void SaveGoalsMenu()
     {
-        Console.Write("Digite o nome do arquivo para salvar as metas: ");
+        Console.Write("Enter the file name to save the goals: ");
         string fileName = Console.ReadLine();
         SaveGoals(fileName);
     }
@@ -375,28 +375,28 @@ public class GoalManager
                     string goalType = goal.GetType().Name;
                     writer.WriteLine($"{goalType},{goal.ShortName},{goal.Description},{goal.Points}");
 
-                    // Se a meta for uma meta de checklist, escreva os detalhes adicionais
+                    // If the goal is a checklist goal, write the additional details
                     if (goal is ChecklistGoal checklistGoal)
                     {
                         writer.WriteLine($"{checklistGoal.Target},{checklistGoal.Bonus},{checklistGoal.AmountCompleted}");
                     }
                 }
             }
-            Console.WriteLine("Metas salvas com sucesso!");
+            Console.WriteLine("Goals saved successfully!");
         }
         catch (FileNotFoundException)
         {
-            Console.WriteLine($"Arquivo não encontrado: {fileName}");
+            Console.WriteLine($"File not found: {fileName}");
         }
         catch (IOException ex)
         {
-            Console.WriteLine($"Erro ao salvar metas: {ex.Message}");
+            Console.WriteLine($"Error saving goals: {ex.Message}");
         }
     }
 
     public void LoadGoalsMenu()
     {
-        Console.Write("Digite o nome do arquivo para carregar as metas: ");
+        Console.Write("Enter the file name to load the goals from: ");
         string fileName = Console.ReadLine();
         LoadGoals(fileName);
     }
@@ -435,21 +435,21 @@ public class GoalManager
                             ((ChecklistGoal)goal).AmountCompleted = amountCompleted;
                             break;
                         default:
-                            throw new ArgumentException($"Tipo de meta desconhecido: {typeName}");
+                            throw new ArgumentException($"Unknown goal type: {typeName}");
                     }
 
                     _goals.Add(goal);
                 }
             }
-            Console.WriteLine("Metas carregadas com sucesso!");
+            Console.WriteLine("Goals loaded successfully!");
         }
         catch (FileNotFoundException)
         {
-            Console.WriteLine($"Arquivo não encontrado: {fileName}");
+            Console.WriteLine($"File not found: {fileName}");
         }
         catch (IOException ex)
         {
-            Console.WriteLine($"Erro ao carregar metas: {ex.Message}");
+            Console.WriteLine($"Error loading goals: {ex.Message}");
         }
     }
 
