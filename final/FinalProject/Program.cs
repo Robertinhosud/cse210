@@ -94,3 +94,64 @@ class Program
         Console.WriteLine(relatorio);
     }
 }
+
+
+/* W06 Prove: Developer—Project Milestone
+Name: Roberto Vergilio Soares Junior
+This program will help people with how to handle their own money.
+So far I've written most of the class codes I had in mind.
+
+Expense: This class represents a single expense, including the amount spent, the date of the expense, and the category to which it belongs.
+
+Attributes:
+value: stores the amount spent.
+date: stores the date of the expense.
+category: stores the category of the expense.
+Methods:
+getValor(): returns the value of the expense.
+getData(): returns the date of the expense.
+getCategoria(): returns the category of the expense.
+ExpenseManager: This class is responsible for managing the list of expenses, including adding new expenses, retrieving existing expenses, and generating reports on spending.
+
+Attributes:
+expenseList: stores the list of expenses.
+Methods:
+addExpense(expense): adds a new expense to the list.
+getExpenses(): returns the list of expenses.
+generateReport(): generates a report with total expenses by category.
+Here's the class diagram for these two classes:
++------------------+       +------------------+
+|     Expense      |       | ExpenseManager   |
++------------------+       +------------------+
+| - value: double  |       | - expenseList: List<Expense> |
+| - date: DateTime |       +------------------+
+| - category: string | 
++------------------+
+| + getValor() : double  |
+| + getData() : DateTime |
+| + getCategory() : string |
++------------------+
+              |
+              | Contains
+              |
+              v
+          +---------------+
+          |   ExpenseManager |
+          +---------------+
+          | - expenseList: List<Expense> |
+          +---------------+
+          | + addExpense(expense: Expense) : void |
+          | + getExpenses() : List<Expense> |
+          | + generateReport() : string |
+          +---------------+
+
+The addExpense(expense) method of the ExpenseManager class allows adding new expenses to the expense list.
+• The getExpenses() method of the ExpenseManager class allows retrieving the list of expenses.
+• The generateReport() method of the ExpenseManager class generates a report with total expenses by category, using the expenses stored in the list.
+*/
+
+
+
+
+
+
