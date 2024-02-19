@@ -11,12 +11,22 @@ public class Despesa
     // Construtor
     public Despesa(double valor, DateTime data, string categoria)
     {
+        if (valor < 0)
+        {
+            throw new ArgumentException("O valor da despesa deve ser não negativo.");
+        }
+
+        if (string.IsNullOrWhiteSpace(categoria))
+        {
+            throw new ArgumentException("A categoria da despesa não pode ser nula ou vazia.");
+        }
+
         this.valor = valor;
         this.data = data;
         this.categoria = categoria;
     }
 
-    // Métodos
+    // Métodos Get como antes
     public double GetValor()
     {
         return valor;
@@ -44,10 +54,52 @@ public class DespesaManager
         listaDespesas = new List<Despesa>();
     }
 
+    // Método para calcular o total de despesas em um determinado mês
+    public double CalcularTotalDespesasPorMes(int ano, int mes)
+    {
+        double total = 0.0;
+
+        foreach (Despesa despesa in listaDespesas)
+        {
+            if (despesa.GetData().Year == ano && despesa.GetData().Month == mes)
+            {
+                total += despesa.GetValor();
+            }
+        }
+
+        return total;
+    }
+
     // Método para adicionar uma nova despesa à lista
     public void AdicionarDespesa(Despesa despesa)
     {
         listaDespesas.Add(despesa);
+    }
+
+    // Método para editar uma despesa existente
+    public void EditarDespesa(int indice, Despesa novaDespesa)
+    {
+        if (indice >= 0 && indice < listaDespesas.Count)
+        {
+            listaDespesas[indice] = novaDespesa;
+        }
+        else
+        {
+            throw new IndexOutOfRangeException("Índice inválido para editar a despesa.");
+        }
+    }
+
+    // Método para excluir uma despesa existente
+    public void ExcluirDespesa(int indice)
+    {
+        if (indice >= 0 && indice < listaDespesas.Count)
+        {
+            listaDespesas.RemoveAt(indice);
+        }
+        else
+        {
+            throw new IndexOutOfRangeException("Índice inválido para excluir a despesa.");
+        }
     }
 
     // Método para retornar a lista de despesas
@@ -59,10 +111,13 @@ public class DespesaManager
     // Método para gerar um relatório com os gastos totais por categoria
     public string GerarRelatorio()
     {
-        // Aqui você pode implementar a lógica para gerar o relatório
-        // Por exemplo, pode percorrer a lista de despesas, calcular os gastos por categoria e formatar o relatório
-        // Este é apenas um esboço básico
-        return "Relatório de despesas";
+        string relatorio = "Relatório de despesas:\n";
+        foreach (Despesa despesa in listaDespesas)
+        {
+            relatorio += $"Data: {despesa.GetData()}, Categoria: {despesa.GetCategoria()}, Valor: {despesa.GetValor():C}\n";
+        }
+
+        return relatorio;
     }
 }
 
@@ -70,88 +125,108 @@ class Program
 {
     static void Main(string[] args)
     {
-        // Exemplo de uso das classes
-
         // Criar uma instância de DespesaManager
         DespesaManager manager = new DespesaManager();
 
-        // Adicionar algumas despesas de exemplo
-        manager.AdicionarDespesa(new Despesa(50.0, DateTime.Now, "Alimentação"));
-        manager.AdicionarDespesa(new Despesa(30.0, DateTime.Now.AddDays(-2), "Transporte"));
-        manager.AdicionarDespesa(new Despesa(100.0, DateTime.Now.AddDays(-5), "Lazer"));
+        // Exibir menu
+        bool sair = false;
+        while (!sair)
+        {
+            Console.WriteLine("Escolha uma opção:");
+            Console.WriteLine("1. Adicionar despesa");
+            Console.WriteLine("2. Editar despesa");
+            Console.WriteLine("3. Excluir despesa");
+            Console.WriteLine("4. Exibir todas as despesas");
+            Console.WriteLine("5. Gerar relatório de despesas");
+            Console.WriteLine("6. Sair");
 
-        // Obter a lista de despesas e exibir
+            // Ler a opção do usuário
+            string opcao = Console.ReadLine();
+
+            switch (opcao)
+            {
+                case "1":
+                    AdicionarDespesa(manager);
+                    break;
+                case "2":
+                    EditarDespesa(manager);
+                    break;
+                case "3":
+                    ExcluirDespesa(manager);
+                    break;
+                case "4":
+                    ExibirTodasDespesas(manager);
+                    break;
+                case "5":
+                    GerarRelatorio(manager);
+                    break;
+                case "6":
+                    sair = true;
+                    break;
+                default:
+                    Console.WriteLine("Opção inválida.");
+                    break;
+            }
+        }
+    }
+
+    static void AdicionarDespesa(DespesaManager manager)
+    {
+        Console.WriteLine("Informe o valor da despesa:");
+        double valor = Convert.ToDouble(Console.ReadLine());
+
+        Console.WriteLine("Informe a categoria da despesa:");
+        string categoria = Console.ReadLine();
+
+        Console.WriteLine("Informe a data da despesa (formato: dd/mm/aaaa):");
+        DateTime data = DateTime.Parse(Console.ReadLine());
+
+        Despesa novaDespesa = new Despesa(valor, data, categoria);
+        manager.AdicionarDespesa(novaDespesa);
+        Console.WriteLine("Despesa adicionada com sucesso.");
+    }
+
+    static void EditarDespesa(DespesaManager manager)
+    {
+        Console.WriteLine("Informe o índice da despesa que deseja editar:");
+        int indice = Convert.ToInt32(Console.ReadLine());
+
+        Console.WriteLine("Informe o novo valor da despesa:");
+        double novoValor = Convert.ToDouble(Console.ReadLine());
+
+        Console.WriteLine("Informe a nova categoria da despesa:");
+        string novaCategoria = Console.ReadLine();
+
+        Console.WriteLine("Informe a nova data da despesa (formato: dd/mm/aaaa):");
+        DateTime novaData = DateTime.Parse(Console.ReadLine());
+
+        Despesa novaDespesa = new Despesa(novoValor, novaData, novaCategoria);
+        manager.EditarDespesa(indice, novaDespesa);
+        Console.WriteLine("Despesa editada com sucesso.");
+    }
+
+    static void ExcluirDespesa(DespesaManager manager)
+    {
+        Console.WriteLine("Informe o índice da despesa que deseja excluir:");
+        int indice = Convert.ToInt32(Console.ReadLine());
+
+        manager.ExcluirDespesa(indice);
+        Console.WriteLine("Despesa excluída com sucesso.");
+    }
+
+    static void ExibirTodasDespesas(DespesaManager manager)
+    {
         List<Despesa> despesas = manager.GetDespesas();
-        Console.WriteLine("Lista de despesas:");
+        Console.WriteLine("Todas as despesas:");
         foreach (Despesa despesa in despesas)
         {
-            Console.WriteLine($"Valor: {despesa.GetValor()}, Data: {despesa.GetData()}, Categoria: {despesa.GetCategoria()}");
+            Console.WriteLine($"Data: {despesa.GetData()}, Categoria: {despesa.GetCategoria()}, Valor: {despesa.GetValor():C}");
         }
+    }
 
-        // Gerar e exibir o relatório de despesas
+    static void GerarRelatorio(DespesaManager manager)
+    {
         string relatorio = manager.GerarRelatorio();
-        Console.WriteLine("\nRelatório de despesas:");
         Console.WriteLine(relatorio);
     }
 }
-
-
-/* W06 Prove: Developer—Project Milestone
-Name: Roberto Vergilio Soares Junior
-This program will help people with how to handle their own money.
-So far I've written most of the class codes I had in mind.
-
-Expense: This class represents a single expense, including the amount spent, the date of the expense, and the category to which it belongs.
-
-Attributes:
-value: stores the amount spent.
-date: stores the date of the expense.
-category: stores the category of the expense.
-Methods:
-getValor(): returns the value of the expense.
-getData(): returns the date of the expense.
-getCategoria(): returns the category of the expense.
-ExpenseManager: This class is responsible for managing the list of expenses, including adding new expenses, retrieving existing expenses, and generating reports on spending.
-
-Attributes:
-expenseList: stores the list of expenses.
-Methods:
-addExpense(expense): adds a new expense to the list.
-getExpenses(): returns the list of expenses.
-generateReport(): generates a report with total expenses by category.
-Here's the class diagram for these two classes:
-+------------------+       +------------------+
-|     Expense      |       | ExpenseManager   |
-+------------------+       +------------------+
-| - value: double  |       | - expenseList: List<Expense> |
-| - date: DateTime |       +------------------+
-| - category: string | 
-+------------------+
-| + getValor() : double  |
-| + getData() : DateTime |
-| + getCategory() : string |
-+------------------+
-              |
-              | Contains
-              |
-              v
-          +---------------+
-          |   ExpenseManager |
-          +---------------+
-          | - expenseList: List<Expense> |
-          +---------------+
-          | + addExpense(expense: Expense) : void |
-          | + getExpenses() : List<Expense> |
-          | + generateReport() : string |
-          +---------------+
-
-The addExpense(expense) method of the ExpenseManager class allows adding new expenses to the expense list.
-• The getExpenses() method of the ExpenseManager class allows retrieving the list of expenses.
-• The generateReport() method of the ExpenseManager class generates a report with total expenses by category, using the expenses stored in the list.
-*/
-
-
-
-
-
-
